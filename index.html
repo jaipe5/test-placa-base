@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#10223e">
+<meta name="description" content="Test interactivo de 30 preguntas sobre placa base y compatibilidad para 1.º de ASIR.">
+<title>Test interactivo · Placa base y compatibilidad · ASIR1</title>
+<style>
+  :root {color-scheme:light;--ink:#14233b;--muted:#5c6d83;--line:#d9e2ee;--bg:#f4f7fb;--card:#fff;--accent:#125dc4;--accent-dark:#064aa5;--teal:#0d8a82;--good:#0c7a55;--bad:#b33142;--shadow:0 14px 38px rgba(20,38,69,.08)}
+  * {box-sizing:border-box}
+  body{margin:0;background:var(--bg);font-family:Inter,"Segoe UI",Arial,sans-serif;color:var(--ink);line-height:1.5}
+  button{font:inherit;cursor:pointer} button:focus-visible{outline:3px solid #f2a84b;outline-offset:3px}
+  button:disabled{cursor:not-allowed;opacity:.48}
+  .topbar{background:#10223e;color:#fff;padding:17px max(20px,calc((100vw - 1130px)/2));display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+  .brand{font-weight:800;font-size:17px;letter-spacing:.02em}.brand span{color:#70d9d0}
+  .course{font-size:13px;font-weight:600;color:#d7e5fc}
+  main{max-width:1130px;margin:0 auto;padding:38px 18px 60px}
+  h1{font-size:clamp(30px,4vw,48px);letter-spacing:-.035em;line-height:1.12;margin:0 0 13px;font-weight:850}
+  h2{font-size:clamp(22px,3vw,29px);line-height:1.25;letter-spacing:-.02em;margin:6px 0 23px}
+  p{margin:0 0 14px}.eyebrow{text-transform:uppercase;color:#0b746f;font-size:12px;letter-spacing:.11em;font-weight:850;margin-bottom:14px}
+  .lead{font-size:17px;color:var(--muted);max-width:720px}
+  .card{background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:22px;padding:clamp(20px,3.5vw,38px)}
+  .hero{display:grid;grid-template-columns:1fr 250px;gap:32px;align-items:center}
+  .hero-graphic{border-radius:25px;padding:22px;background:linear-gradient(145deg,#ecf7fa,#e6eeff);min-height:225px;display:grid;place-items:center}
+  .chip{width:140px;height:140px;border:12px solid #237d92;border-radius:18px;position:relative;background:#102b48;box-shadow:0 13px 28px #123e4a29;display:grid;place-items:center;transform:rotate(-7deg)}
+  .chip:before{content:"";position:absolute;inset:11px;border:2px solid #8bdcd8;border-radius:7px}.chip:after{content:"";position:absolute;inset:-24px;border:8px dashed #54aab1;border-radius:25px;opacity:.65}
+  .chip strong{color:white;font-size:27px;letter-spacing:.02em}
+  .pillbox{display:flex;gap:9px;flex-wrap:wrap;margin:25px 0 28px}
+  .pill{padding:7px 12px;border-radius:100px;background:#eaf2fc;color:#164879;font-weight:750;font-size:13px}
+  .btn{border:none;border-radius:12px;padding:12px 20px;font-weight:750;min-height:46px;transition:transform .12s,background .12s}
+  .btn:hover:not(:disabled){transform:translateY(-1px)}.primary{background:var(--accent);color:white}.primary:hover:not(:disabled){background:var(--accent-dark)}
+  .secondary{background:#edf3fb;color:#194979;border:1px solid #d6e4f5}.ghost{background:white;border:1px solid var(--line);color:#263e5e}
+  .note{font-size:13px;color:var(--muted);margin-top:15px}
+  .quiz-layout{display:grid;grid-template-columns:minmax(0,1fr) 258px;gap:18px;align-items:start}
+  .question-header{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:12px}
+  .num{font-weight:850;color:#0f69b2;font-size:13px;text-transform:uppercase;letter-spacing:.06em}
+  .tag{font-size:12px;border:1px solid #cee3e7;background:#ebf8f7;padding:4px 10px;border-radius:20px;color:#16625f;font-weight:750}
+  .progress-track{height:9px;border-radius:90px;background:#e9eff6;overflow:hidden;margin:20px 0 24px}.progress-fill{height:100%;width:0;background:linear-gradient(90deg,#0b8f87,#2373d9);transition:width .2s}
+  .answers{display:grid;gap:11px}.answer{display:flex;width:100%;min-height:65px;align-items:center;gap:14px;text-align:left;padding:14px 16px;border:2px solid #dee7f1;border-radius:14px;background:#fff;color:var(--ink);font-size:16px;font-weight:590;transition:border-color .1s,background .1s}
+  .answer:hover{border-color:#8eb8ea;background:#f4f9ff}.answer[aria-pressed="true"]{border-color:var(--accent);background:#eaf3ff}
+  .letter{display:grid;place-items:center;flex:0 0 32px;width:32px;height:32px;border:1px solid #bbccdf;background:#f4f7fb;color:#285078;border-radius:10px;font-size:14px;font-weight:850}
+  .answer[aria-pressed="true"] .letter{background:var(--accent);color:white;border-color:var(--accent)}
+  .navbuttons{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:27px}
+  .sidebar h3{font-size:17px;margin:0 0 6px}.sidebar p{font-size:13px;color:var(--muted);margin-bottom:17px}.numbers{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+  .qnum{border:1px solid #cbd9e7;background:#fff;border-radius:10px;aspect-ratio:1;min-width:0;color:#315274;font-weight:800;font-size:13px}
+  .qnum.done{background:#d9f5ee;color:#0d725f;border-color:#79c9b8}.qnum.current{box-shadow:inset 0 0 0 2px var(--accent);border-color:var(--accent)}
+  .legend{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px;font-size:12px;color:var(--muted)}.dot{display:inline-block;width:11px;height:11px;background:#d9f5ee;border:1px solid #79c9b8;border-radius:3px;margin-right:5px}
+  .score{display:flex;align-items:center;gap:20px;flex-wrap:wrap}.score-number{font-size:58px;font-weight:900;line-height:1;color:var(--accent);letter-spacing:-.06em}
+  .score-label{color:var(--muted);font-size:15px}.statrow{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}
+  .stat{padding:9px 13px;border-radius:12px;background:#eef4fb;font-size:14px;font-weight:800}.stat.ok{background:#e4f6ee;color:var(--good)}.stat.no{background:#fceef0;color:var(--bad)}
+  .result-actions{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0}
+  .review{margin-top:27px;border-top:1px solid var(--line);padding-top:18px}
+  details{border:1px solid var(--line);border-radius:12px;background:white;margin-top:9px;overflow:hidden}
+  summary{list-style:none;cursor:pointer;padding:14px 16px;display:flex;gap:12px;align-items:center;font-size:14px;font-weight:750}
+  summary::-webkit-details-marker{display:none}summary:after{content:"+";margin-left:auto;font-size:21px;color:#54708e}details[open] summary:after{content:"−"}
+  .answer-explain{padding:0 16px 17px;font-size:14px;color:#3b5068;line-height:1.5}
+  .status{display:inline-block;border-radius:8px;padding:3px 7px;font-size:12px;font-weight:850;white-space:nowrap}.status.good{background:#e4f6ee;color:var(--good)}.status.bad{background:#fcebef;color:var(--bad)}
+  .feedback-line{margin:6px 0}.feedback-line strong{color:var(--ink)}
+  .hidden{display:none!important}.message{border-left:4px solid #d38a22;background:#fff8e8;padding:11px 14px;border-radius:7px;margin-top:16px;font-size:14px;color:#78510d}
+  footer{border-top:1px solid var(--line);padding:20px 12px 27px;text-align:center;color:#66768d;font-size:12px}
+  @media(max-width:800px){.hero{grid-template-columns:1fr}.hero-graphic{min-height:170px}.chip{transform:rotate(-7deg) scale(.75)}.quiz-layout{grid-template-columns:1fr}.sidebar{order:-1}.numbers{grid-template-columns:repeat(10,minmax(0,1fr))}.qnum{font-size:12px}.topbar{padding:15px 18px}}
+  @media(max-width:480px){main{padding:22px 12px 40px}.card{padding:19px}.numbers{grid-template-columns:repeat(6,minmax(0,1fr))}.navbuttons .btn{flex:1}.score-number{font-size:48px}}
+  @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+  @media print{body{background:#fff}.topbar,footer,.no-print,.sidebar{display:none!important}main{padding:0;max-width:none}.card{box-shadow:none;border:0;padding:0}.review details{break-inside:avoid}.review details:not([open]) .answer-explain{display:block}.review details:not([open]) summary:after{display:none}#startScreen,#quizScreen{display:none!important}#resultScreen{display:block!important}}
+</style>
+</head>
+<body>
+<header class="topbar"><div class="brand">JP <span>Aula Digital</span> · Hardware</div><div class="course">Fundamentos de Hardware · 1.º ASIR</div></header>
+<main>
+<section id="startScreen" class="card hero">
+ <div><div class="eyebrow">Cuestionario interactivo</div><h1>Placa base y compatibilidad</h1><p class="lead">Comprueba lo que sabes sobre formato, socket, chipset, VRM, RAM, PCIe, almacenamiento, alimentación y firmware.</p>
+ <div class="pillbox"><span class="pill">30 preguntas</span><span class="pill">4 alternativas</span><span class="pill">1 respuesta correcta</span><span class="pill">Sin límite de tiempo</span></div>
+ <button class="btn primary" id="startBtn">Comenzar test →</button><p class="note">Las preguntas y alternativas aparecen en orden aleatorio. Al finalizar podrás consultar la puntuación y las explicaciones. No se envían datos a ningún servidor.</p></div>
+ <div class="hero-graphic" aria-hidden="true"><div class="chip"><strong>ASIR</strong></div></div>
+</section>
+<section id="quizScreen" class="hidden" aria-label="Cuestionario">
+ <div class="quiz-layout">
+  <article class="card"><div class="question-header"><div class="num" id="questionCounter">Pregunta 1 de 30</div><span class="tag" id="questionTopic">Tema</span></div>
+  <div class="progress-track" role="progressbar" aria-label="Preguntas respondidas" aria-valuemin="0" aria-valuemax="30" aria-valuenow="0" id="progressBar"><div class="progress-fill" id="progressFill"></div></div>
+  <h2 id="questionText"></h2><div id="answerButtons" class="answers" role="group" aria-label="Elige una única respuesta"></div>
+  <div id="incompleteMessage" class="message hidden" role="alert"></div>
+  <div class="navbuttons"><button class="btn secondary" id="backBtn">← Anterior</button><button class="btn primary" id="nextBtn">Siguiente →</button></div>
+  <div class="note no-print">Puedes utilizar las teclas 1–4 para responder y las flechas ← → para avanzar o retroceder.</div>
+  </article>
+  <aside class="card sidebar" aria-label="Navegación del cuestionario"><h3>Tu progreso</h3><p id="answeredCount">0 de 30 respondidas</p><div class="numbers" id="questionNumbers"></div><div class="legend"><span><i class="dot"></i>Respondida</span><span>El borde azul señala la actual</span></div></aside>
+ </div>
+</section>
+<section id="resultScreen" class="card hidden" aria-live="polite">
+ <div class="eyebrow">Evaluación final</div><h1>Resultado del test</h1><div class="score"><div id="scoreNumber" class="score-number">0/30</div><div><div class="score-label">Respuestas correctas</div><div id="scoreComment" style="font-weight:760;margin-top:5px"></div></div></div>
+ <div class="statrow"><div id="gradeBox" class="stat">Nota: 0/10</div><div id="correctBox" class="stat ok">Aciertos: 0</div><div id="wrongBox" class="stat no">Errores: 0</div></div>
+ <div class="result-actions no-print"><button id="retryBtn" class="btn primary">Repetir con nuevo orden</button><button id="csvBtn" class="btn secondary">Descargar resultados CSV</button><button id="printBtn" class="btn ghost">Imprimir resultado</button></div>
+ <p class="note">La corrección muestra la solución y una explicación breve de cada pregunta. La captura de pantalla no sustituye a una evaluación supervisada.</p>
+ <div class="review"><h2>Revisión de respuestas</h2><p class="score-label">Abre cada pregunta para ver tu respuesta, la correcta y la justificación.</p><div id="reviewList"></div></div>
+</section>
+</main>
+<footer>IES María de Zayas de Sotomayor · Fundamentos de Hardware · Material de repaso para 1.º de ASIR</footer>
+<script>
+'use strict';
+// BANCO EDITABLE DE 30 PREGUNTAS. Cada pregunta tiene una única solución.
+const BANK=[{"tema":"Placa base","nivel":"Recuerdo","p":"¿Cuál es la función principal de la placa base?","o":["Conectar y permitir la comunicación entre los componentes del ordenador.","Guardar permanentemente los documentos del usuario.","Ejecutar directamente las instrucciones como la CPU.","Convertir la corriente alterna en continua."],"c":0,"e":"La placa base integra los componentes y proporciona las conexiones que permiten su funcionamiento conjunto."},{"tema":"Placa base","nivel":"Comprensión","p":"¿Qué transportan los buses y las conexiones de la placa base?","o":["Únicamente la alimentación eléctrica del procesador.","Datos, direcciones y señales de control.","Solamente los archivos guardados en el SSD.","Exclusivamente señales de vídeo al monitor."],"c":1,"e":"Los buses permiten intercambiar información y señales necesarias para coordinar el funcionamiento del equipo."},{"tema":"Formato","nivel":"Recuerdo","p":"¿Cuáles son las dimensiones habituales de una placa ATX estándar?","o":["170 × 170 mm.","244 × 244 mm.","305 × 244 mm.","305 × 170 mm."],"c":2,"e":"ATX estándar mide 305 × 244 mm; Micro-ATX llega habitualmente a 244 × 244 mm y Mini-ITX mide 170 × 170 mm."},{"tema":"Formato","nivel":"Recuerdo","p":"¿Qué formato de placa base mide 170 × 170 mm?","o":["ATX.","Micro-ATX.","E-ATX.","Mini-ITX."],"c":3,"e":"Mini-ITX es un formato compacto de 170 × 170 mm."},{"tema":"Formato","nivel":"Aplicación","p":"Una caja admite exclusivamente Mini-ITX y tienes una placa ATX. ¿Qué decisión es adecuada?","o":["Comprar una caja que admita placas ATX.","Instalar la placa ATX doblando los bordes de la caja.","Cambiar solo el disipador del procesador.","Utilizar un adaptador SATA para fijar la placa."],"c":0,"e":"El formato de la placa debe estar admitido físicamente por la caja. En este caso es necesario cambiar la caja o elegir otra placa."},{"tema":"Montaje","nivel":"Comprensión","p":"¿Para qué sirven los separadores metálicos entre la caja y la placa base?","o":["Aumentar la velocidad del procesador.","Fijar la placa y evitar contactos eléctricos indebidos con el chasis.","Reducir la velocidad de los ventiladores.","Transformar la tensión de la fuente de alimentación."],"c":1,"e":"Los separadores mantienen la placa a la distancia adecuada del chasis y evitan contactos no deseados."},{"tema":"Procesador","nivel":"Recuerdo","p":"¿Qué componente de la placa base es el zócalo en el que se instala la CPU?","o":["Chipset.","VRM.","Socket.","DIMM."],"c":2,"e":"El socket establece la conexión física y eléctrica del procesador con la placa base."},{"tema":"Procesador","nivel":"Aplicación","p":"Una CPU aparece como compatible con el socket de la placa, pero requiere una BIOS más reciente que la instalada. ¿Qué debes hacer?","o":["Instalar memoria de una generación diferente.","Sustituir el cable de alimentación SATA.","Cambiar de puerto USB el teclado.","Actualizar la BIOS siguiendo el procedimiento oficial, antes de usar esa CPU."],"c":3,"e":"La coincidencia del socket no basta; la versión de BIOS instalada debe admitir el modelo exacto de CPU. Puede ser necesario un procesador compatible o un método de actualización sin CPU."},{"tema":"Procesador","nivel":"Recuerdo","p":"En un socket LGA, ¿dónde se encuentran los contactos eléctricos del zócalo?","o":["En el propio socket de la placa base.","En los módulos de memoria RAM.","En el disipador del procesador.","En el conector EPS de la fuente."],"c":0,"e":"Los sockets LGA sitúan los contactos en el zócalo, por lo que deben manipularse con especial cuidado."},{"tema":"Chipset","nivel":"Comprensión","p":"¿Qué descripción corresponde mejor al chipset de una placa moderna?","o":["Ejecuta las instrucciones de los programas en lugar de la CPU.","Proporciona determinadas funciones y conexiones de entrada/salida.","Almacena permanentemente los archivos del usuario.","Es la ranura física en la que se instala la RAM."],"c":1,"e":"El chipset ofrece parte de la conectividad, mientras que ciertas funciones están integradas directamente en la CPU."},{"tema":"Chipset","nivel":"Comprensión","p":"¿Dónde suele estar integrado el controlador principal de memoria en los ordenadores actuales?","o":["En el SSD de arranque.","En la fuente de alimentación.","En el procesador.","En el conector F_PANEL."],"c":2,"e":"La CPU integra normalmente el controlador de memoria; el chipset se ocupa de otras funciones de conectividad."},{"tema":"Alimentación","nivel":"Recuerdo","p":"¿Cuál es la función principal del VRM de la placa base?","o":["Elegir el dispositivo desde el que arranca el equipo.","Guardar la configuración del usuario.","Controlar directamente los puertos USB traseros.","Transformar y regular la tensión eléctrica para componentes como la CPU."],"c":3,"e":"El VRM proporciona tensiones adecuadas y estables, especialmente para el procesador."},{"tema":"Alimentación","nivel":"Comprensión","p":"¿Qué componentes pueden formar parte del VRM de una placa base?","o":["Etapas de potencia, inductores y condensadores.","Ranuras DIMM, conectores SATA y puertos HDMI.","Módulos RAM, SSD y tarjetas de red.","Botones de encendido, reinicio y LED frontales."],"c":0,"e":"El VRM incluye componentes de conversión, filtrado y regulación eléctrica, y puede contar con disipadores."},{"tema":"Memoria RAM","nivel":"Recuerdo","p":"¿Qué significa que la memoria RAM sea volátil?","o":["Que solo permite leer datos una vez.","Que pierde su contenido cuando deja de recibir alimentación eléctrica.","Que conserva todos los archivos sin electricidad.","Que solo puede funcionar junto con discos SATA."],"c":1,"e":"La RAM mantiene temporalmente datos e instrucciones mientras dispone de alimentación."},{"tema":"Memoria RAM","nivel":"Aplicación","p":"Una placa admite exclusivamente módulos DDR5 y tienes dos módulos DDR4. ¿Qué debes hacer?","o":["Colocar DDR4 en una ranura PCIe.","Aplicar más fuerza para encajar la memoria.","Seleccionar módulos DDR5 compatibles.","Actualizar el controlador de red para usar DDR4."],"c":2,"e":"DDR4 y DDR5 son generaciones física y eléctricamente incompatibles: no se pueden intercambiar."},{"tema":"Memoria RAM","nivel":"Aplicación","p":"El manual de una placa con ranuras A1, A2, B1 y B2 recomienda A2 y B2 para dos módulos. ¿Dónde debes instalarlos?","o":["En A1 y A2.","En B1 y B2.","En A1 y B1.","En A2 y B2."],"c":3,"e":"El manual del modelo determina las ranuras recomendadas para una configuración de dos módulos en doble canal."},{"tema":"Memoria RAM","nivel":"Comprensión","p":"¿Qué afirmación sobre los perfiles XMP y EXPO es correcta?","o":["Permiten aplicar ajustes de memoria admitidos, pero la estabilidad depende de la combinación instalada.","Transforman físicamente una memoria DDR4 en DDR5.","Garantizan la máxima frecuencia con cualquier CPU y placa.","Sustituyen a la BIOS/UEFI durante el arranque."],"c":0,"e":"XMP y EXPO facilitan configuraciones de memoria, pero su funcionamiento estable no está garantizado para cualquier combinación."},{"tema":"Expansión","nivel":"Recuerdo","p":"¿Para qué se utiliza habitualmente una ranura PCIe x16?","o":["Para conectar los botones de encendido del frontal.","Para instalar una tarjeta gráfica de expansión.","Para conectar directamente el cable de red Ethernet.","Para instalar un módulo DIMM de memoria."],"c":1,"e":"PCIe permite conectar tarjetas de expansión; la ranura x16 se usa habitualmente para tarjetas gráficas."},{"tema":"Expansión","nivel":"Comprensión","p":"Una ranura tiene tamaño físico PCIe x16, pero está conectada eléctricamente a cuatro carriles. ¿Qué significa?","o":["Funciona obligatoriamente con dieciséis carriles eléctricos.","Es una ranura de memoria RAM con forma PCIe.","Acepta físicamente tarjetas x16 compatibles, pero dispone de cuatro carriles eléctricos.","Solo puede conectar unidades SATA de 2,5 pulgadas."],"c":2,"e":"La longitud física de la ranura y el número de carriles eléctricos no siempre coinciden."},{"tema":"Expansión","nivel":"Aplicación","p":"Instalas una tarjeta PCIe 4.0 en una ranura PCIe 5.0 compatible. ¿A qué generación puede funcionar el enlace con esa tarjeta?","o":["Necesariamente PCIe 3.0.","Necesariamente PCIe 5.0.","No podrá establecer enlace por ser distintas generaciones.","Como máximo PCIe 4.0, según la capacidad de la tarjeta."],"c":3,"e":"Las generaciones PCIe pueden ser compatibles entre sí, pero la velocidad efectiva se limita por el extremo más lento."},{"tema":"Almacenamiento","nivel":"Comprensión","p":"¿Qué conexiones utiliza normalmente un SSD SATA de 2,5 pulgadas dentro del ordenador?","o":["Cable de datos SATA a la placa y cable de alimentación SATA a la fuente.","Solo el conector EPS de alimentación de CPU.","Un cable PCIe x16 hacia el procesador.","Una ranura DIMM y un conector F_PANEL."],"c":0,"e":"Los SSD SATA de 2,5 pulgadas suelen necesitar una conexión de datos SATA y otra de alimentación eléctrica."},{"tema":"Almacenamiento","nivel":"Recuerdo","p":"¿Qué dimensiones físicas expresa la denominación M.2 2280?","o":["22 mm de longitud y 80 mm de anchura.","22 mm de anchura y 80 mm de longitud.","2,2 mm de anchura y 8 mm de longitud.","80 mm de anchura y 228 mm de longitud."],"c":1,"e":"En M.2 2280, 22 indica la anchura en milímetros y 80 la longitud."},{"tema":"Almacenamiento","nivel":"Comprensión","p":"¿Qué es NVMe en el contexto de un SSD?","o":["Una ranura física para memoria DDR5.","Un tipo de cable de alimentación SATA.","Un protocolo de almacenamiento utilizado sobre PCIe.","Un firmware que sustituye a la UEFI."],"c":2,"e":"NVMe es un protocolo de comunicación para almacenamiento que aprovecha PCIe; M.2 designa un formato físico."},{"tema":"Almacenamiento","nivel":"Aplicación","p":"Tienes un SSD M.2 SATA y una ranura M.2 que solo admite unidades PCIe/NVMe. ¿Qué conclusión es correcta?","o":["Funcionará porque todos los conectores M.2 admiten SATA.","Funcionará al conectar un cable EPS a la unidad.","Basta con aumentar el perfil XMP para reconocer el SSD.","No es compatible con esa ranura; debes buscar una conexión compatible."],"c":3,"e":"Compartir el formato M.2 no garantiza compatibilidad: hay que verificar la interfaz SATA o PCIe/NVMe admitida."},{"tema":"Almacenamiento","nivel":"Aplicación","p":"El manual indica que ocupar una ranura M.2 deshabilita uno de los puertos SATA. ¿Qué debes hacer al montar el equipo?","o":["Consultar qué puerto se comparte y conectar las unidades en puertos disponibles.","Cambiar los módulos DDR5 por DDR4 para recuperar el puerto.","Conectar el SSD SATA al conector CPU_FAN.","Retirar el conector ATX de 24 pines mientras se utiliza el M.2."],"c":0,"e":"Algunas placas comparten recursos entre M.2, SATA y PCIe; el manual especifica las limitaciones de cada combinación."},{"tema":"Alimentación","nivel":"Recuerdo","p":"¿Qué conector proporciona la alimentación principal de una placa base ATX moderna?","o":["Conector CPU_FAN de cuatro pines.","Conector ATX de 24 pines.","Conector SATA de datos de siete pines.","Cabecera USB del panel frontal."],"c":1,"e":"El conector ATX de 24 pines suministra la alimentación principal de la placa base."},{"tema":"Alimentación","nivel":"Aplicación","p":"Un equipo tiene conectado el ATX de 24 pines, pero falta la alimentación específica de la CPU. ¿Qué conector debes revisar?","o":["F_PANEL.","USB frontal.","ATX12V/EPS de CPU.","SATA de datos."],"c":2,"e":"El circuito de alimentación del procesador recibe energía mediante el conector ATX12V/EPS; no debe confundirse con los conectores PCIe de GPU."},{"tema":"Conectores","nivel":"Aplicación","p":"Debes conectar el botón de encendido y los LED de la caja. ¿Qué cabecera debes localizar en la placa?","o":["CPU_FAN.","DIMM_A2.","M.2 Key M.","F_PANEL."],"c":3,"e":"F_PANEL reúne las conexiones del botón de encendido, reinicio e indicadores luminosos del frontal."},{"tema":"Firmware","nivel":"Comprensión","p":"¿Qué ocurre durante el inicio del ordenador con la BIOS/UEFI y el POST?","o":["El firmware inicializa componentes y realiza comprobaciones antes de continuar el arranque.","La BIOS guarda todos los documentos del usuario en memoria RAM.","POST aumenta automáticamente los carriles físicos de PCIe.","UEFI convierte un conector USB-C en un puerto HDMI."],"c":0,"e":"La BIOS/UEFI ejecuta la inicialización del hardware y comprobaciones de POST antes de continuar con el arranque."},{"tema":"Compatibilidad","nivel":"Aplicación","p":"Un modelo de RAM no aparece en la lista QVL de la placa. ¿Qué deducción es válida?","o":["Es imposible que ese módulo funcione en esa placa.","No figura entre los módulos probados en esa lista; debes verificar sus especificaciones y compatibilidad.","El módulo pasa automáticamente a funcionar como memoria DDR4.","Solo funcionará si se instala en una ranura PCIe x16."],"c":1,"e":"La QVL refleja modelos comprobados por el fabricante, pero no incluye necesariamente todas las memorias compatibles."}];
+const $=id=>document.getElementById(id);
+const shuffle=array=>{const a=[...array];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+let quiz=[],selected=[],index=0,submitted=false;
+function prepare(){
+  quiz=shuffle(BANK.map((q,original)=>({id:original+1,p:q.p,tema:q.tema,nivel:q.nivel,exp:q.e,options:shuffle(q.o.map((label,i)=>({label,correct:i===q.c})))})));
+  selected=Array(quiz.length).fill(null);index=0;submitted=false;
+  $('startScreen').classList.add('hidden');$('resultScreen').classList.add('hidden');$('quizScreen').classList.remove('hidden');
+  $('questionNumbers').replaceChildren();
+  quiz.forEach((_,i)=>{let b=document.createElement('button');b.className='qnum';b.type='button';b.textContent=String(i+1);b.setAttribute('aria-label','Ir a pregunta '+(i+1));b.addEventListener('click',()=>{index=i;render()});$('questionNumbers').appendChild(b)});
+  render(); window.scrollTo({top:0,behavior:'auto'});
+}
+function render(){
+  const q=quiz[index],answered=selected.filter(x=>x!==null).length;
+  $('questionCounter').textContent=`Pregunta ${index+1} de ${quiz.length}`;
+  $('questionTopic').textContent=q.tema+' · '+q.nivel;
+  $('questionText').textContent=q.p;
+  $('answeredCount').textContent=`${answered} de ${quiz.length} respondidas`;
+  $('progressFill').style.width=(answered/quiz.length*100)+'%';$('progressBar').setAttribute('aria-valuenow',String(answered));
+  $('answerButtons').replaceChildren();
+  q.options.forEach((opt,j)=>{
+    let b=document.createElement('button');b.type='button';b.className='answer';b.setAttribute('aria-pressed',String(selected[index]===j));
+    let letter=document.createElement('span');letter.className='letter';letter.textContent='ABCD'[j];
+    let label=document.createElement('span');label.textContent=opt.label;b.append(letter,label);
+    b.addEventListener('click',()=>{selected[index]=j;render()});$('answerButtons').appendChild(b);
+  });
+  for(let i=0;i<quiz.length;i++) {let b=$('questionNumbers').children[i];b.classList.toggle('done',selected[i]!==null);b.classList.toggle('current',i===index);b.setAttribute('aria-current',i===index?'step':'false')}
+  $('backBtn').disabled=index===0;
+  $('nextBtn').textContent=index===quiz.length-1?'Finalizar y corregir ✓':'Siguiente →';
+  $('incompleteMessage').classList.add('hidden');
+}
+function next(){if(index<quiz.length-1){index++;render();}else finish();}
+function finish(){
+  const missed=selected.findIndex(x=>x===null);
+  if(missed!==-1){index=missed;render();$('incompleteMessage').textContent=`Todavía quedan ${selected.filter(x=>x===null).length} preguntas sin responder. Completa todas para corregir.`;$('incompleteMessage').classList.remove('hidden');return}
+  submitted=true; $('quizScreen').classList.add('hidden');$('resultScreen').classList.remove('hidden');
+  const total=quiz.length,correct=quiz.reduce((n,q,i)=>n+(q.options[selected[i]].correct?1:0),0),wrong=total-correct,grade=(correct*10/total).toFixed(2).replace('.',',');
+  $('scoreNumber').textContent=`${correct}/${total}`;$('gradeBox').textContent=`Nota: ${grade}/10`;$('correctBox').textContent=`Aciertos: ${correct}`;$('wrongBox').textContent=`Errores: ${wrong}`;
+  $('scoreComment').textContent=correct>=27?'Excelente dominio de los conceptos.':correct>=21?'Buen resultado: revisa los errores.':correct>=15?'Progreso adecuado: repasa las dudas.':'Conviene repasar la lectura y repetir el test.';
+  const review=$('reviewList');review.replaceChildren();
+  quiz.forEach((q,i)=>{
+    const user=selected[i],best=q.options.findIndex(x=>x.correct),right=q.options[user].correct;
+    const details=document.createElement('details');if(!right)details.open=true;
+    const sum=document.createElement('summary'),status=document.createElement('span');status.className='status '+(right?'good':'bad');status.textContent=right?'Acierto':'Error';
+    const title=document.createElement('span');title.textContent=`${i+1}. ${q.p}`;sum.append(status,title);
+    const expl=document.createElement('div');expl.className='answer-explain';
+    const line1=document.createElement('div');line1.className='feedback-line';const t1=document.createElement('strong');t1.textContent='Tu respuesta: ';line1.append(t1,document.createTextNode('ABCD'[user]+') '+q.options[user].label));
+    const line2=document.createElement('div');line2.className='feedback-line';const t2=document.createElement('strong');t2.textContent='Respuesta correcta: ';line2.append(t2,document.createTextNode('ABCD'[best]+') '+q.options[best].label));
+    const line3=document.createElement('div');line3.className='feedback-line';const t3=document.createElement('strong');t3.textContent='Explicación: ';line3.append(t3,document.createTextNode(q.exp));
+    expl.append(line1,line2,line3);details.append(sum,expl);review.appendChild(details);
+  });
+  window.scrollTo({top:0,behavior:'auto'});
+}
+function csvDownload(){
+  if(!submitted)return;
+  const rows=[['Pregunta','Tema','Nivel','Enunciado','Respuesta seleccionada','Respuesta correcta','Resultado','Explicación']];
+  quiz.forEach((q,i)=>{let right=q.options.find(x=>x.correct),mine=q.options[selected[i]],ok=mine.correct;rows.push([i+1,q.tema,q.nivel,q.p,mine.label,right.label,ok?'Correcta':'Incorrecta',q.exp])});
+  const escape=v=>'"'+String(v).replace(/"/g,'""')+'"';const csv='\ufeff'+rows.map(r=>r.map(escape).join(';')).join('\r\n');
+  const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));const link=document.createElement('a');link.href=url;link.download='resultado-test-placa-base.csv';document.body.appendChild(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+$('startBtn').addEventListener('click',prepare);$('retryBtn').addEventListener('click',prepare);$('backBtn').addEventListener('click',()=>{if(index>0){index--;render()}});$('nextBtn').addEventListener('click',next);$('csvBtn').addEventListener('click',csvDownload);$('printBtn').addEventListener('click',()=>{document.querySelectorAll('#reviewList details').forEach(d=>d.open=true);window.print()});
+document.addEventListener('keydown',e=>{if($('quizScreen').classList.contains('hidden')||e.altKey||e.ctrlKey||e.metaKey||e.repeat)return;if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA')return;
+  if(['1','2','3','4'].includes(e.key)){selected[index]=Number(e.key)-1;render();return}
+  if(e.key==='ArrowRight'){if(index<quiz.length-1){index++;render()}}else if(e.key==='ArrowLeft'){if(index>0){index--;render()}}
+});
+</script>
+</body>
+</html>
